@@ -73,7 +73,7 @@ async function createS3Bucket() {
 			);
 		})
 		.then(() => {
-			console.log("Configured S3 buckeet");
+			console.log("Configured S3 bucket");
 		})
 		.catch((e) => {
 			if (e instanceof BucketAlreadyOwnedByYou) {
