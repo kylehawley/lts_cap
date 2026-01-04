@@ -31,16 +31,18 @@ export class Tinybird extends Effect.Service<Tinybird>()("Tinybird", {
 		const token = env.TINYBIRD_TOKEN;
 		const host = env.TINYBIRD_HOST;
 
-		if (!host) {
-			yield* Effect.die(new Error("TINYBIRD_HOST must be set"));
-		}
+		// KAH: Don't crash if TINYBIRD isn't set
+		// if (!host) {
+		// 	yield* Effect.die(new Error("TINYBIRD_HOST must be set"));
+		// }
 
 		yield* Effect.logDebug("Initializing Tinybird service", {
 			hasToken: Boolean(token),
 			host,
 		});
 
-		const enabled = Boolean(token);
+		// KAH Tinybird is enabled only if token and host are set
+		const enabled = Boolean(token && host);
 
 		if (!enabled) {
 			yield* Effect.logWarning(
