@@ -8,7 +8,8 @@ export function calculateSeats(organization: {
 	members?: { id: string }[];
 	invites?: { id: string }[];
 }) {
-	const inviteQuota = organization?.inviteQuota ?? 1;
+	// const inviteQuota = organization?.inviteQuota ?? 1;
+	const inviteQuota = 1000;
 	const memberCount = organization?.members?.length ?? 0;
 	const pendingInvitesCount = organization?.invites?.length ?? 0;
 	const totalUsedSeats = memberCount + pendingInvitesCount;
