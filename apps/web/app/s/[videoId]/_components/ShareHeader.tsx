@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Effect, Option } from "effect";
 import { Check, Copy, Globe2 } from "lucide-react";
 import moment from "moment";
-import { useRouter } from "next/navigation";   
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { editTitle } from "@/actions/videos/edit-title";
@@ -299,8 +299,8 @@ export const ShareHeader = ({
 							</div>
 						</div>
 					</div>
-					{user !== null && (
-						<div className="flex space-x-2">
+					<div className="flex space-x-2">
+						{user !== null && (
 							<div>
 								<div className="flex gap-2 items-center">
 									{data.password && (
@@ -338,59 +338,59 @@ export const ShareHeader = ({
 									</button>
 								)}
 							</div>
-							{user !== null && (
-								<div className="hidden md:flex gap-2">
-									<Tooltip
-										content="Download video"
-										className="bg-gray-12 text-gray-1 border-gray-11 shadow-lg"
-										delayDuration={100}
-									>
-										<Button
-											variant="gray"
-											className="rounded-full flex items-center justify-center"
-											onClick={handleDownload}
-											disabled={downloadMutation.isPending}
-										>
-											<FontAwesomeIcon
-												className="size-4 text-gray-12"
-												icon={faDownload}
-											/>
-										</Button>
-									</Tooltip>
-									{isOwner && (
-										<Tooltip
-											content="View analytics"
-											className="bg-gray-12 text-gray-1 border-gray-11 shadow-lg"
-											delayDuration={100}
-										>
-											<Button
-												variant="gray"
-												className="rounded-full flex items-center justify-center"
-												onClick={() => {
-													push(`/dashboard/analytics?capId=${data.id}`);
-												}}
-											>
-												<FontAwesomeIcon
-													className="size-4 text-gray-12"
-													icon={faChartSimple}
-												/>
-											</Button>
-										</Tooltip>
-									)}
+						)}
+						<div className="hidden md:flex gap-2">
+							<Tooltip
+								content="Download video"
+								className="bg-gray-12 text-gray-1 border-gray-11 shadow-lg"
+								delayDuration={100}
+							>
+								<Button
+									variant="gray"
+									className="rounded-full flex items-center justify-center"
+									onClick={handleDownload}
+									disabled={downloadMutation.isPending}
+								>
+									<FontAwesomeIcon
+										className="size-4 text-gray-12"
+										icon={faDownload}
+									/>
+								</Button>
+							</Tooltip>
+							{user !== null && isOwner && (
+								<Tooltip
+									content="View analytics"
+									className="bg-gray-12 text-gray-1 border-gray-11 shadow-lg"
+									delayDuration={100}
+								>
 									<Button
+										variant="gray"
+										className="rounded-full flex items-center justify-center"
 										onClick={() => {
-											push("/dashboard/caps?page=1");
+											push(`/dashboard/analytics?capId=${data.id}`);
 										}}
 									>
-										<span className="hidden text-sm text-white lg:block">
-											Go to
-										</span>{" "}
-										Dashboard
+										<FontAwesomeIcon
+											className="size-4 text-gray-12"
+											icon={faChartSimple}
+										/>
 									</Button>
-								</div>
+								</Tooltip>
+							)}
+							{user !== null && (
+								<Button
+									onClick={() => {
+										push("/dashboard/caps?page=1");
+									}}
+								>
+									<span className="hidden text-sm text-white lg:block">
+										Go to
+									</span>{" "}
+									Dashboard
+								</Button>
 							)}
 						</div>
-					)}
+					</div>
 				</div>
 			</div>
 			<UpgradeModal
