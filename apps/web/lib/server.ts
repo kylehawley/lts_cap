@@ -1,6 +1,5 @@
 import "server-only";
 
-import { allowedOrigins } from "@/utils/cors";
 import { decrypt } from "@cap/database/crypto";
 import { serverEnv } from "@cap/env";
 import {
@@ -14,11 +13,12 @@ import {
 	S3Buckets,
 	Spaces,
 	SpacesPolicy,
+	Tinybird,
 	Users,
 	Videos,
 	VideosPolicy,
 	VideosRepo,
-	Workflows
+	Workflows,
 } from "@cap/web-backend";
 import { type HttpAuthMiddleware, Video } from "@cap/web-domain";
 import {
@@ -41,6 +41,7 @@ import {
 	Redacted,
 } from "effect";
 import { cookies } from "next/headers";
+import { allowedOrigins } from "@/utils/cors";
 import { layerTracer } from "./tracing";
 
 const CookiePasswordAttachmentLive = Layer.effect(
@@ -113,7 +114,7 @@ export const Dependencies = Layer.mergeAll(
 	Videos.Default,
 	VideosPolicy.Default,
 	VideosRepo.Default,
-	// Tinybird.Default,
+	Tinybird.Default,
 	Folders.Default,
 	SpacesPolicy.Default,
 	OrganisationsPolicy.Default,
