@@ -2,15 +2,18 @@
 
 import { buildEnv, NODE_ENV } from "@cap/env";
 import { Button } from "@cap/ui";
+import { HttpClient } from "@effect/platform";
 import {
 	faChartSimple,
 	faChevronDown,
+	faDownload,
 	faLock,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Effect, Option } from "effect";
 import { Check, Copy, Globe2 } from "lucide-react";
 import moment from "moment";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";   
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { editTitle } from "@/actions/videos/edit-title";
@@ -21,6 +24,7 @@ import { useCurrentUser } from "@/app/Layout/AuthContext";
 import { SignedImageUrl } from "@/components/SignedImageUrl";
 import { Tooltip } from "@/components/Tooltip";
 import { UpgradeModal } from "@/components/UpgradeModal";
+import { useEffectMutation, useRpcClient } from "@/lib/EffectRuntime";
 import { usePublicEnv } from "@/utils/public-env";
 import type { VideoData } from "../types";
 
@@ -66,6 +70,47 @@ export const ShareHeader = ({
 	const isOwner = user && user.id === data.owner.id;
 
 	const { webUrl } = usePublicEnv();
+	const rpc = useRpcClient();
+
+	const downloadMutation = useEffectMutation({
+		mutationFn: () =>
+			Effect.gen(function* () {
+				const result = yield* rpc.VideoGetDownloadInfo(data.id);
+				const httpClient = yield* HttpClient.HttpClient;
+				if (Option.isSome(result)) {
+					const fetchResponse = yield* httpClient.get(result.value.downloadUrl);
+					const blob = yield* fetchResponse.arrayBuffer;
+
+					const blobUrl = window.URL.createObjectURL(new Blob([blob]));
+					const link = document.createElement("a");
+					link.href = blobUrl;
+					link.download = result.value.fileName;
+					link.style.display = "none";
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+
+					window.URL.revokeObjectURL(blobUrl);
+				} else {
+					throw new Error("Failed to get download URL");
+				}
+			}),
+	});
+
+	const handleDownload = async () => {
+		if (downloadMutation.isPending) return;
+
+		toast.promise(downloadMutation.mutateAsync(), {
+			loading: "Preparing download...",
+			success: "Download started successfully",
+			error: (error) => {
+				if (error instanceof Error) {
+					return error.message;
+				}
+				return "Failed to download video - please try again.";
+			},
+		});
+	};
 
 	useEffect(() => {
 		setTitle(data.name);
@@ -295,6 +340,23 @@ export const ShareHeader = ({
 							</div>
 							{user !== null && (
 								<div className="hidden md:flex gap-2">
+									<Tooltip
+										content="Download video"
+										className="bg-gray-12 text-gray-1 border-gray-11 shadow-lg"
+										delayDuration={100}
+									>
+										<Button
+											variant="gray"
+											className="rounded-full flex items-center justify-center"
+											onClick={handleDownload}
+											disabled={downloadMutation.isPending}
+										>
+											<FontAwesomeIcon
+												className="size-4 text-gray-12"
+												icon={faDownload}
+											/>
+										</Button>
+									</Tooltip>
 									{isOwner && (
 										<Tooltip
 											content="View analytics"
