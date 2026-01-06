@@ -9,7 +9,7 @@ export default function Layout(props: PropsWithChildren) {
 			<Navbar />
 			{props.children}
 			<Footer />
-			<Intercom />
+			{/*<Intercom />*/}
 		</>
 	);
 }

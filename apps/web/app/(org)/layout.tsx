@@ -5,7 +5,7 @@ export default function Layout(props: PropsWithChildren) {
 	return (
 		<>
 			{props.children}
-			<Intercom />
+			{/*<Intercom />*/}
 		</>
 	);
 }
