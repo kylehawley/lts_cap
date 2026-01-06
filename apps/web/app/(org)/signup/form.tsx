@@ -433,7 +433,7 @@ const NormalSignup = ({
 
 	return (
 		<motion.div>
-			<motion.div layout className="flex flex-col space-y-3">
+			{/*<motion.div layout className="flex flex-col space-y-3">
 				<MotionInput
 					id="email"
 					name="email"
@@ -456,21 +456,21 @@ const NormalSignup = ({
 				>
 					Sign up with email
 				</MotionButton>
-			</motion.div>
+			</motion.div>*/}
 			{(publicEnv.googleAuthAvailable ||
 				publicEnv.azureAdAuthAvailable ||
 				publicEnv.workosAuthAvailable) && (
 				<>
-					<div className="flex gap-4 items-center my-4">
+					{/*<div className="flex gap-4 items-center my-4">
 						<span className="flex-1 h-px bg-gray-5" />
 						<p className="text-sm text-center text-gray-10">OR</p>
 						<span className="flex-1 h-px bg-gray-5" />
-					</div>
+					</div>*/}
 					<motion.div
 						layout
 						className="flex flex-col gap-3 justify-center items-center"
 					>
-						{!oauthError && (
+						{publicEnv.googleAuthAvailable && !oauthError && (
 							<MotionButton
 								variant="gray"
 								type="button"
@@ -514,7 +514,7 @@ const NormalSignup = ({
 								</p>
 							</div>
 						)}
-						<MotionButton
+						{/*<MotionButton
 							variant="gray"
 							type="button"
 							className="w-full"
@@ -524,7 +524,7 @@ const NormalSignup = ({
 						>
 							<LucideArrowUpRight size={20} />
 							Sign up with SAML SSO
-						</MotionButton>
+						</MotionButton>*/}
 					</motion.div>
 				</>
 			)}

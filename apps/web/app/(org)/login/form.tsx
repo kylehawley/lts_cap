@@ -419,8 +419,8 @@ const NormalLogin = ({
 
 	return (
 		<motion.div>
-			<motion.div layout className="flex flex-col space-y-3">
-				<MotionInput
+			{/*<motion.div layout className="flex flex-col space-y-3">*/}
+				{/*<MotionInput
 					id="email"
 					name="email"
 					autoFocus
@@ -441,7 +441,7 @@ const NormalLogin = ({
 					icon={<FontAwesomeIcon className="mr-1 size-4" icon={faEnvelope} />}
 				>
 					Login with email
-				</MotionButton>
+				</MotionButton>*/}
 				{/* {NODE_ENV === "development" && (
                   <div className="flex justify-center items-center px-6 py-3 mt-3 bg-red-600 rounded-xl">
                     <p className="text-lg text-white">
@@ -452,8 +452,8 @@ const NormalLogin = ({
                     </p>
                   </div>
                 )} */}
-			</motion.div>
-			<motion.p
+			{/*</motion.div>*/}
+			{/*<motion.p
 				layout="position"
 				className="mt-3 mb-2 text-xs text-center text-gray-9"
 			>
@@ -464,17 +464,17 @@ const NormalLogin = ({
 				>
 					Sign up here
 				</Link>
-			</motion.p>
+			</motion.p>*/}
 
 			{(publicEnv.googleAuthAvailable ||
 				publicEnv.azureAdAuthAvailable ||
 				publicEnv.workosAuthAvailable) && (
 				<>
-					<div className="flex gap-4 items-center mt-4 mb-4">
+					{/*<div className="flex gap-4 items-center mt-4 mb-4">
 						<span className="flex-1 h-px bg-gray-5" />
 						<p className="text-sm text-center text-gray-10">OR</p>
 						<span className="flex-1 h-px bg-gray-5" />
-					</div>
+					</div>*/}
 					<motion.div
 						layout
 						className="flex flex-col gap-3 justify-center items-center"
