@@ -39,12 +39,13 @@ export async function POST(request: NextRequest) {
 			.from(users)
 			.where(eq(users.id, invite.invitedByUserId));
 
-		if (!organizationOwner || !organizationOwner.stripeSubscriptionId) {
-			return NextResponse.json(
-				{ error: "Organization owner not found or has no subscription" },
-				{ status: 404 },
-			);
-		}
+		// KAH - don't check stripe ID for self hosted
+		// if (!organizationOwner || !organizationOwner.stripeSubscriptionId) {
+		// 	return NextResponse.json(
+		// 		{ error: "Organization owner not found or has no subscription" },
+		// 		{ status: 404 },
+		// 	);
+		// }
 
 		const [existingMembership] = await db()
 			.select({ id: organizationMembers.id })
@@ -76,7 +77,7 @@ export async function POST(request: NextRequest) {
 		await db()
 			.update(users)
 			.set({
-				thirdPartyStripeSubscriptionId: organizationOwner.stripeSubscriptionId,
+				// thirdPartyStripeSubscriptionId: organizationOwner.stripeSubscriptionId,
 				activeOrganizationId: invite.organizationId,
 				defaultOrgId: invite.organizationId,
 				onboardingSteps,
