@@ -72,6 +72,12 @@ function createServerEnv() {
 			WORKOS_CLIENT_ID: z.string().optional(),
 			WORKOS_API_KEY: z.string().optional(),
 
+			/// Microsoft Azure AD
+			// Provide these to allow Microsoft Azure AD login
+			AZURE_AD_CLIENT_ID: z.string().optional(),
+			AZURE_AD_CLIENT_SECRET: z.string().optional(),
+			AZURE_AD_TENANT_ID: z.string().optional(),
+
 			/// Settings
 			CAP_VIDEOS_DEFAULT_PUBLIC: boolString(true).describe(
 				"Should videos be public or private by default",

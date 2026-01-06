@@ -111,6 +111,13 @@ export function SignupForm() {
 		});
 	};
 
+	const handleAzureAdSignIn = () => {
+		trackEvent("auth_started", { method: "azure-ad", is_signup: true });
+		signIn("azure-ad", {
+			...(next && next.length > 0 ? { callbackUrl: next } : {}),
+		});
+	};
+
 	const handleOrganizationLookup = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!organizationId) {
@@ -317,6 +324,7 @@ export function SignupForm() {
 											loading={loading}
 											oauthError={oauthError}
 											handleGoogleSignIn={handleGoogleSignIn}
+											handleAzureAdSignIn={handleAzureAdSignIn}
 										/>
 									</motion.form>
 								)}
@@ -410,6 +418,7 @@ const NormalSignup = ({
 	loading,
 	oauthError,
 	handleGoogleSignIn,
+	handleAzureAdSignIn,
 }: {
 	setShowOrgInput: (show: boolean) => void;
 	email: string;
@@ -418,6 +427,7 @@ const NormalSignup = ({
 	loading: boolean;
 	oauthError: boolean;
 	handleGoogleSignIn: () => void;
+	handleAzureAdSignIn: () => void;
 }) => {
 	const publicEnv = usePublicEnv();
 
@@ -447,7 +457,9 @@ const NormalSignup = ({
 					Sign up with email
 				</MotionButton>
 			</motion.div>
-			{(publicEnv.googleAuthAvailable || publicEnv.workosAuthAvailable) && (
+			{(publicEnv.googleAuthAvailable ||
+				publicEnv.azureAdAuthAvailable ||
+				publicEnv.workosAuthAvailable) && (
 				<>
 					<div className="flex gap-4 items-center my-4">
 						<span className="flex-1 h-px bg-gray-5" />
@@ -468,6 +480,24 @@ const NormalSignup = ({
 							>
 								<Image src="/google.svg" alt="Google" width={16} height={16} />
 								Sign up with Google
+							</MotionButton>
+						)}
+
+						{publicEnv.azureAdAuthAvailable && !oauthError && (
+							<MotionButton
+								variant="gray"
+								type="button"
+								className="flex gap-2 justify-center items-center w-full text-sm"
+								onClick={handleAzureAdSignIn}
+								disabled={loading}
+							>
+								<Image
+									src="/microsoft.svg"
+									alt="Microsoft"
+									width={16}
+									height={16}
+								/>
+								Sign up with Microsoft
 							</MotionButton>
 						)}
 

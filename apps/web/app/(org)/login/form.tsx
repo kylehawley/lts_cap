@@ -111,6 +111,13 @@ export function LoginForm() {
 		});
 	};
 
+	const handleAzureAdSignIn = () => {
+		trackEvent("auth_started", { method: "azure-ad", is_signup: false });
+		signIn("azure-ad", {
+			...(next && next.length > 0 ? { callbackUrl: next } : {}),
+		});
+	};
+
 	const handleOrganizationLookup = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!organizationId) {
@@ -317,6 +324,7 @@ export function LoginForm() {
 											loading={loading}
 											oauthError={oauthError}
 											handleGoogleSignIn={handleGoogleSignIn}
+											handleAzureAdSignIn={handleAzureAdSignIn}
 										/>
 									</motion.form>
 								)}
@@ -396,6 +404,7 @@ const NormalLogin = ({
 	loading,
 	oauthError,
 	handleGoogleSignIn,
+	handleAzureAdSignIn,
 }: {
 	setShowOrgInput: (show: boolean) => void;
 	email: string;
@@ -404,6 +413,7 @@ const NormalLogin = ({
 	loading: boolean;
 	oauthError: boolean;
 	handleGoogleSignIn: () => void;
+	handleAzureAdSignIn: () => void;
 }) => {
 	const publicEnv = usePublicEnv();
 
@@ -456,7 +466,9 @@ const NormalLogin = ({
 				</Link>
 			</motion.p>
 
-			{(publicEnv.googleAuthAvailable || publicEnv.workosAuthAvailable) && (
+			{(publicEnv.googleAuthAvailable ||
+				publicEnv.azureAdAuthAvailable ||
+				publicEnv.workosAuthAvailable) && (
 				<>
 					<div className="flex gap-4 items-center mt-4 mb-4">
 						<span className="flex-1 h-px bg-gray-5" />
@@ -477,6 +489,24 @@ const NormalLogin = ({
 							>
 								<Image src="/google.svg" alt="Google" width={16} height={16} />
 								Login with Google
+							</MotionButton>
+						)}
+
+						{publicEnv.azureAdAuthAvailable && !oauthError && (
+							<MotionButton
+								variant="gray"
+								type="button"
+								className="flex gap-2 justify-center items-center w-full text-sm"
+								onClick={handleAzureAdSignIn}
+								disabled={loading || emailSent}
+							>
+								<Image
+									src="/microsoft.svg"
+									alt="Microsoft"
+									width={16}
+									height={16}
+								/>
+								Login with Microsoft
 							</MotionButton>
 						)}
 

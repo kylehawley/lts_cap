@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import type { NextAuthOptions } from "next-auth";
 import { getServerSession as _getServerSession } from "next-auth";
 import type { Adapter } from "next-auth/adapters";
+import AzureADProvider from "next-auth/providers/azure-ad";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
 import type { Provider } from "next-auth/providers/index";
@@ -49,6 +50,16 @@ export const authOptions = (): NextAuthOptions => {
 								"https://www.googleapis.com/auth/userinfo.profile",
 							].join(" "),
 							prompt: "select_account",
+						},
+					},
+				}),
+				AzureADProvider({
+					clientId: serverEnv().AZURE_AD_CLIENT_ID!,
+					clientSecret: serverEnv().AZURE_AD_CLIENT_SECRET!,
+					tenantId: serverEnv().AZURE_AD_TENANT_ID!,
+					authorization: {
+						params: {
+							scope: "openid profile email User.Read",
 						},
 					},
 				}),
