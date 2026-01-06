@@ -416,6 +416,8 @@ const NormalLogin = ({
 	handleAzureAdSignIn: () => void;
 }) => {
 	const publicEnv = usePublicEnv();
+	
+	console.log(publicEnv)
 
 	return (
 		<motion.div>
@@ -500,12 +502,6 @@ const NormalLogin = ({
 								onClick={handleAzureAdSignIn}
 								disabled={loading || emailSent}
 							>
-								<Image
-									src="/microsoft.svg"
-									alt="Microsoft"
-									width={16}
-									height={16}
-								/>
 								Login with Microsoft
 							</MotionButton>
 						)}
