@@ -409,13 +409,13 @@ export const Share = ({
 							/>
 						</div>
 					</div>
-					<div className="mt-4 lg:hidden">
+					{/*<div className="mt-4 lg:hidden">
 						<Toolbar
 							onOptimisticComment={handleOptimisticComment}
 							onCommentSuccess={handleCommentSuccess}
 							data={data}
 						/>
-					</div>
+					</div>*/}
 				</div>
 
 				{!allSettingsDisabled && (
@@ -443,7 +443,7 @@ export const Share = ({
 				)}
 			</div>
 
-			<div className="hidden mt-4 lg:block">
+			{/*<div className="hidden mt-4 lg:block">
 				<div>
 					<Toolbar
 						onOptimisticComment={handleOptimisticComment}
@@ -455,7 +455,7 @@ export const Share = ({
 						data={data}
 					/>
 				</div>
-			</div>
+			</div>*/}
 
 			<div className="hidden mt-4 lg:block">
 				{aiLoading &&
